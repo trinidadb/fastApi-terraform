@@ -1,0 +1,2 @@
+API_PREFIX = "/api"
+ROUTE_PREFIX = "/v1"
