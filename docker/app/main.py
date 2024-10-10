@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.constants.general import API_PREFIX, ROUTE_PREFIX
+from app.modules.users import USERS
 from app.modules.initialization import initialize
 from app.modules.on_finish import on_finish
 import app.routers.users as usersRouter
@@ -28,3 +29,5 @@ async def favicon():
     return {"file": "static/favicon.ico"}
 
 #To run the code: python -m uvicorn app.main:app --reload
+
+# Check for secure communication: https://github.com/skatesham/fastapi-bigger-application/blob/master/app/src/routers/stocks.py

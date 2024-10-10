@@ -29,6 +29,7 @@ def get_users_from_csv(filePath = "app/static/contacts.csv"):
         return pd.read_csv(filePath)
 
 def write_users_to_csv(users_obj_list, filePath = "app/static/contacts.csv"):
+    print(users_obj_list)
     users_data = [user.dict() for user in users_obj_list]
     df = pd.DataFrame(users_data)
     df.to_csv(filePath, index=False)  
@@ -50,3 +51,13 @@ def process_users(df_users):
 
 async_get_users_from_csv = async_wrap(get_users_from_csv)
 async_write_users_to_csv = async_wrap(write_users_to_csv)  
+
+async def get_init_users():
+    global USERS
+    df_users = await async_get_users_from_csv()
+    USERS = process_users(df_users)
+
+async def write_final_users():
+    global USERS
+    print(USERS)
+    await async_write_users_to_csv(USERS)
