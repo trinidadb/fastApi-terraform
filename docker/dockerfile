@@ -1,19 +1,14 @@
-FROM public.ecr.aws/lambda/python:3.12.2024.08.09.13
+FROM python:3.9-slim
 
-# Copy requirements.txt
-COPY ./requirements.txt ${LAMBDA_TASK_ROOT}
+WORKDIR /code
 
-# Install the specified packages
+COPY requirements.txt .
+
 RUN pip install -r requirements.txt
 
-# Copy function code
-COPY ./app/constants ${LAMBDA_TASK_ROOT}/app/constants 
-COPY ./app/modules ${LAMBDA_TASK_ROOT}/app/modules
-COPY ./app/routers ${LAMBDA_TASK_ROOT}/app/routers
-COPY ./app/static ${LAMBDA_TASK_ROOT}/app/static
+COPY ./app /code/app
+COPY ./run.py /code/run.py
 
-COPY ./app/app.py ${LAMBDA_TASK_ROOT}/app
-COPY ./app/run.py ${LAMBDA_TASK_ROOT}
+EXPOSE 8000
 
-# Set the CMD to your handler
-CMD [ "run.run" ]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
