@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import Optional
 
-from app.modules.users import UserProfile, USERS
+from app.modules.users import UserProfile
 
 router = APIRouter(tags = ['usersManager'])
 

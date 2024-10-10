@@ -1,4 +1,4 @@
-from app.modules.users import async_get_users_from_csv, process_users, USERS
+from app.modules.users import get_init_users
 
 
 ml_models = {}
@@ -14,11 +14,7 @@ async def init_client():
     pass
 
 async def initialize():
-    
-    global USERS
-    df_users = await async_get_users_from_csv()
-    USERS = process_users(df_users)
-
+    await get_init_users()
     await load_ML_models()
     await init_db()
     await init_client()
