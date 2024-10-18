@@ -5,10 +5,16 @@ resource "aws_security_group" "alb" {
     vpc_id      = aws_vpc.my-vpc.id
 
     # Allows inbound traffic on the port specified by the variable var.app_port from any IP address (0.0.0.0/0), meaning it's open to the internet.
-    ingress {
+    ingress { #HTTP
+        from_port   = 80
+        to_port     = 80
         protocol    = "tcp"
-        from_port   = var.app_port
-        to_port     = var.app_port
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress { #False HTTPs as there is no associated certificate
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
 
