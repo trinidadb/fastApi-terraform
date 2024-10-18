@@ -37,15 +37,7 @@ resource "aws_ecs_service" "api" {
   network_configuration {
     subnets          = module.network.subnets_id
     security_groups  = [module.network.security_group_ecs_id]
-    assign_public_ip = true
-        /* 
-        Since you are running an API inside a container on ECS, and you have two public subnets, it is not mandatory to set assign_public_ip = true to make your API accessible from the internet if you are using an Application Load Balancer (ALB).
-        Key Consideration: Using an ALB
-        If you are deploying your API behind an ALB (which is typical for internet-facing services in AWS), you do not need to assign a public IP to your ECS tasks.
-        The ALB will have a public IP (since it's deployed in public subnets), and it will handle all the internet-facing traffic. The ALB will forward traffic to your ECS tasks, which can remain private within the VPC.
-        In this setup, the ECS tasks will not need a public IP because the ALB acts as the middleman between the internet and the ECS tasks.
-        */
-
+    assign_public_ip = var.subnets_public
   }
   load_balancer {
     target_group_arn = module.network.lb_target_group_arn
