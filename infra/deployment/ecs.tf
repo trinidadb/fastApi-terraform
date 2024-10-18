@@ -1,10 +1,10 @@
 resource "aws_ecs_cluster" "my_cluster" {
-  name = "my-api-cluster"
+  name = "${var.namespace}-${var.env}-my-cluster"
 }
 
 # Task: A single execution of a task definition, comprising one or more containers.
 resource "aws_ecs_task_definition" "my_api_task" {
-  family                   = "my-api-task"
+  family                   = "${var.namespace}-${var.env}-my-api-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256   # 0.25 vCPU
@@ -28,7 +28,7 @@ resource "aws_ecs_task_definition" "my_api_task" {
 #          Defines how many instances of the task_definition we want to run, we provide this with the desired_count attribute. Each instance of a task_definition is called a Task.
 # aws_ecs_service: provides an ECS service - effectively a task that is expected to run until an error occurs or a user terminates it (typically a webserver or a database).
 resource "aws_ecs_service" "api" {
-  name            = "ecs-service"
+  name            = "${var.namespace}-${var.env}-my-api"
   cluster         = aws_ecs_cluster.my_cluster.name
   launch_type     = "FARGATE"
   desired_count   = length(module.network.subnets_id)
