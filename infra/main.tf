@@ -8,25 +8,37 @@ terraform {
   }
 }
 
+
+locals{
+  region    = "eu-north-1"
+  namespace = "my-fastapi-app"
+  env       = "uat"
+}
+
+
 provider "aws" {
-  region = var.region
- default_tags {
-   tags = {
-     Environment = "Test"
-     Project     = "Test"
-     Name        = "Test"
-   }
- }
+  region = local.region
+  default_tags {
+    tags = {
+      Environment = local.env
+      Project     = local.namespace
+      Name        = local.namespace
+    }
+  }
   
 }
 
 module "setup" {
-  source = "./setup"
-  namespace = var.namespace
+  source    = "./setup"
+  namespace = local.namespace
+  env       = local.env
 }
 
 module "deployment" {
-  source = "./deployment"
-  namespace = var.namespace
+  source             = "./deployment"
+  namespace          = local.namespace
+  env                = local.env
+  az_count           = 2
   ecr_repository_url = module.setup.ecr_repository_url
+  subnets_public     = true
 }

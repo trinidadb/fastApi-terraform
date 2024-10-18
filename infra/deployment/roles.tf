@@ -1,12 +1,12 @@
 
 # This part creates the IAM role that ECS tasks will use for execution. The assume_role_policy refers to the previously defined IAM policy (ecs_assume_policy) which allows the ECS service to assume the role. 
 resource "aws_iam_role" "ecs_task_execution" {
-  name               = "ecs-task-execution-${var.namespace}-${var.env}"
+  name               = "${var.namespace}-${var.env}-ecs-task-execution"
   assume_role_policy = data.aws_iam_policy_document.assume_role_ecs_tasks.json
 }
 
 resource "aws_iam_policy" "ecs_execution_policy" {
-  name = "ecs-execution-role-policy"
+  name = "${var.namespace}-${var.env}-ecs-execution-policy"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

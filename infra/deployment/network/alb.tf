@@ -1,12 +1,12 @@
 resource "aws_lb" "my-alb" {
-    name        = "my-load-balancer"
+    name        = "${var.namespace}-${var.env}-lb"
     subnets         = aws_subnet.my-subnets.*.id # Reference all count objects. Specifies the public subnets in which the ALB is deployed
     security_groups = [aws_security_group.alb.id]
 }
 
 # Defines the target group that the ALB will forward traffic to. The target group contains the backend services (e.g., ECS tasks) that process the requests forwarded by the ALB.
 resource "aws_lb_target_group" "service_target_group" {
-    name        = "cb-target-group"
+    name        = "${var.namespace}-${var.env}-lb-target-group"
     port        = var.container_port # Port on which the backend services (ECS tasks) are listening. Port on which targets receive traffic, unless overridden when registering a specific target. Required when target_type is instance, ip or alb
     protocol    = "HTTP"             # Protocol to use for routing traffic to the targets (forward traffic from the ALB to the targets )
     vpc_id      = aws_vpc.my-vpc.id  # Identifier of the VPC in which to create the target group.

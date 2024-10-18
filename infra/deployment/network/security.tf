@@ -1,6 +1,6 @@
 # ALB security Group: Edit to restrict access to the application
 resource "aws_security_group" "alb" {
-    name        = "load-balancer-security-group"
+    name        = "${var.namespace}-${var.env}-lb-security-group"
     description = "Controls access to the ALB"
     vpc_id      = aws_vpc.my-vpc.id
 
@@ -22,7 +22,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group" "ecs_tasks" {
-    name        = "ecs-tasks-security-group"
+    name        = "${var.namespace}-${var.env}-ecs-security-group"
     description = "Allows inbound access from the ALB only"
     vpc_id      = aws_vpc.my-vpc.id
 

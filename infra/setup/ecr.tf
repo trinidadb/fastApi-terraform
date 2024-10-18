@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "app-repo" {
-  name = "${var.namespace}-${var.env}"
+  name = "${var.namespace}-${var.env}-repo"
 
   force_delete = true
 
