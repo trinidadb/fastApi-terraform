@@ -1,5 +1,5 @@
 output "ecr_repository_url" {
-  value       = module.setup.ecr_repository_url
+  value = module.setup.ecr_repository_url
 }
 
 output "task_arn" {

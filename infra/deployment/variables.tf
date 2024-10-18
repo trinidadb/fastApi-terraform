@@ -52,7 +52,9 @@ variable "ecr_repository_url" {
 }
 
 variable "subnets_public" {
-  description = "Determines if public ids are map to vpc subnets on launch. AWS charges for using public ids"
+  description = "Determines if public ids are map to vpc subnets on launch. AWS charges for using public ids.
+                 It is used also to determine  the value of aasign_pulic_ip in the network_configuration in aws_ecs_service.
+                 For tasks in public subnets and using FARGATE, specify ENABLED for Auto-assign public IP when launching the task. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/verify-connectivity.html "
   type = bool
   default = true
 }
