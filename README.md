@@ -1,5 +1,6 @@
 # playingFastApiTerraform
-
+![image](https://github.com/user-attachments/assets/f5e5e2cf-be7e-46b9-abad-5237aa336bfa)
+*By default two public subnets, each in one AZ
 ## Warning
 - Always make sure to destroy your API Service. Forgetting to do so could incur a large AWS fee
 - Never commit your AWS Account ID to git. Save it in an `.env` file and ensure `.env` is added to your `.gitiginore`
@@ -7,7 +8,7 @@
 ## Setup, Deploy, and Destroy
 
 ### Setup Env Variables
-Add an `.env` file containing your AWS account ID and region. Example file:
+Add an `.env` file containing your AWS account ID and region in case you need it. Example file:
 ```
 AWS_ACCOUNT_ID=1234567890
 AWS_REGION=ap-southeast-1
