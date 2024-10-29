@@ -1,4 +1,8 @@
 # Playing with FastAPI and Terraform
+The objective of this project was to create a scalable API structure/template using the FastAPI framework. Containerize the application and deploy it on AWS in a single region and across one or multiple availability zones.
+
+The AWS structure is as follows:
+
 ![image](https://github.com/user-attachments/assets/f5e5e2cf-be7e-46b9-abad-5237aa336bfa)
 
 **By default two public subnets, each in one AZ*
