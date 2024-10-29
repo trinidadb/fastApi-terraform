@@ -9,7 +9,7 @@ setup-ecr:
 
 deploy-container:
 	$(eval ECR_URL=$(shell cd infra && terraform output -raw ecr_repository_url))
-	cd docker && sh uploadDocker.sh $(ECR_URL)
+	cd my-app && sh uploadDocker.sh $(ECR_URL)
 
 deploy-service:
 	cd infra && terraform init && terraform apply -target="module.deployment" -auto-approve

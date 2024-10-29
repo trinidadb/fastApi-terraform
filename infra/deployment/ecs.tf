@@ -37,7 +37,7 @@ resource "aws_ecs_service" "api" {
   network_configuration {
     subnets          = module.network.subnets_id
     security_groups  = [module.network.security_group_ecs_id]
-    assign_public_ip = var.subnets_public
+    assign_public_ip = var.subnets_public # Needs to be set to true if wanting to comunicate with the internet, this is becasue we are using Fargate
   }
   load_balancer {
     target_group_arn = module.network.lb_target_group_arn
