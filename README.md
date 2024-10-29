@@ -1,4 +1,7 @@
 # Playing with FastAPI and Terraform
+![image](https://github.com/user-attachments/assets/f5e5e2cf-be7e-46b9-abad-5237aa336bfa)
+
+**By default two public subnets, each in one AZ*
 
 ## Warning
 - Always ensure to destroy your infrastructure after usage. Forgetting to do so could incur high AWS fees.
