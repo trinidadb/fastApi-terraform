@@ -38,10 +38,10 @@ jobs:
 
       - name: Print Environment Variables
         run: |
-          echo "ECR_REPOSITORY=$ECR_REPOSITORY"
-          echo "ECS_SERVICE=$ECS_SERVICE"
-          echo "ECS_CLUSTER=$ECS_CLUSTER"
-          echo "ECS_TASK_DEFINITION=$ECS_TASK_DEFINITION"
-          echo "CONTAINER_NAME=$CONTAINER_NAME"
+          echo "ECR_REPOSITORY=$TF_OUT_ECR_REPOSITORY"
+          echo "ECS_SERVICE=$TF_OUT_ECS_SERVICE"
+          echo "ECS_CLUSTER=$TF_OUT_ECS_CLUSTER"
+          echo "ECS_TASK_DEFINITION=$TF_OUT_ECS_TASK_DEFINITION"
+          echo "CONTAINER_NAME=$TF_OUT_CONTAINER_NAME"
         shell: bash
       
