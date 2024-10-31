@@ -4,7 +4,7 @@ name: Get Terraform Outputs
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Get Specific Terraform Outputs
         id: terraform-outputs
@@ -35,3 +35,13 @@ jobs:
             }
           }
         shell: pwsh
+
+      - name: Print Environment Variables
+        run: |
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY"
+          echo "ECS_SERVICE=$ECS_SERVICE"
+          echo "ECS_CLUSTER=$ECS_CLUSTER"
+          echo "ECS_TASK_DEFINITION=$ECS_TASK_DEFINITION"
+          echo "CONTAINER_NAME=$CONTAINER_NAME"
+        shell: bash
+      
