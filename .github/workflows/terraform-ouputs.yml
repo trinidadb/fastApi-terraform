@@ -26,6 +26,8 @@ jobs:
           # Extract outputs from the specified state file as JSON
           $terraformOutput = (terraform output -json -state=$stateFilePath | ConvertFrom-Json -AsHashtable)
 
+          echo "$terraformOutput"
+
           # Export only the specified keys as outputs and environment variables
           foreach ($key in $keysOfInterest) {
             if ($terraformOutput.ContainsKey($key)) {
