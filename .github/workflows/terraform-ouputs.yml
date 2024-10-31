@@ -1,0 +1,37 @@
+name: Get Terraform Outputs
+
+# Specify when the workflow should run
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows you to manually trigger the workflow
+
+jobs:
+  extract-terraform-outputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get Specific Terraform Outputs
+        id: terraform-outputs
+        run: |
+          # Specify the path to the state file
+          $stateFilePath = "${{ env.GITHUB_WORKSPACE }}/infra/terraform.tfstate"
+
+          # Specify the keys you're interested in
+          $keysOfInterest = @("ECR_REPOSITORY", "ECS_SERVICE", "ECS_CLUSTER", "ECS_TASK_DEFINITION", "CONTAINER_NAME")
+
+          # Extract outputs from the specified state file as JSON
+          $terraformOutput = (terraform output -json -state=$stateFilePath | ConvertFrom-Json -AsHashtable)
+
+          # Export only the specified keys as outputs and environment variables
+          foreach ($key in $keysOfInterest) {
+            if ($terraformOutput.ContainsKey($key)) {
+              $outputVariableValue = $terraformOutput[$key].value
+              Write-Output "::set-output name=${key}::${outputVariableValue}"
+              Write-Output "TF_OUT_${key}=${outputVariableValue}" >> $env:GITHUB_ENV
+            }
+          }
+        shell: pwsh
