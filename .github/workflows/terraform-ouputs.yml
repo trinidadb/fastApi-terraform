@@ -36,10 +36,9 @@ jobs:
         id: terraform-outputs
         run: |
             for output in $OUTPUTS_OF_INTEREST; do
-              echo "ALOHA"
               value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")   #In bash, 1 means stdout, 2 means stderr(standard error stream). 2> /dev/null means that, redirect the error output from this command to /dev/null. Essentially meaning, just get rid of the error messages
               echo "$output=$value" >> $GITHUB_ENV
-              echo "$value"
+              echo "$output"
             done
       
       - name: Print Terraform Outputs
