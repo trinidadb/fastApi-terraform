@@ -40,3 +40,9 @@ jobs:
               echo "$key=$value" >> $GITHUB_ENV
             done
       
+      - name: Print Terraform Outputs
+        run: |
+            keys=($KEYS_OF_INTEREST)
+            for key in "${keys[@]}"; do
+                echo "$key=${{ env.$key }}"
+            done
