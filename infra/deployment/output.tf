@@ -25,3 +25,19 @@ output "security_group_ecs_id" {
 output "alb_dns_name" {
   value = module.network.alb_dns_name
 }
+
+output "ecs_service_name" {
+  value = aws_ecs_service.api.name
+}
+
+output "ecs_cluster_name" {
+  value = aws_ecs_service.api.cluster
+}
+
+output "ecs_task_definition" {
+  value = aws_ecs_service.api.task_definition
+}
+
+output "ecs_container_name" {
+  value = var.container_name
+}

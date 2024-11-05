@@ -1,5 +1,13 @@
+output "region" {
+  value = local.region
+}
+
 output "ecr_repository_url" {
   value = module.setup.ecr_repository_url
+}
+
+output "ecr_repository_name" {
+  value = module.setup.ecr_repository_name
 }
 
 output "task_arn" {
@@ -28,4 +36,20 @@ output "security_group_ecs_id" {
 
 output "alb_dns_name" {
   value = module.deployment.alb_dns_name
+}
+
+output "ecs_service_name" {
+  value = module.deployment.ecs_service_name
+}
+
+output "ecs_cluster_name" {
+  value = module.deployment.ecs_cluster_name
+}
+
+output "ecs_task_definition" {
+  value = module.deployment.ecs_task_definition
+}
+
+output "ecs_container_name" {
+  value = module.deployment.ecs_container_name
 }
