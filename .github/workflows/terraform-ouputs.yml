@@ -43,7 +43,7 @@ jobs:
       
       - name: Print Terraform Outputs
         run: |
-            echo "ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}"
+            echo "ECR_REPOSITORY=${{ env.ecr_respository_url }}"
             echo "ECS_SERVICE=${{ env.ECS_SERVICE }}"
             echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}"
             echo "ECS_TASK_DEFINITION=${{ env.ECS_TASK_DEFINITION }}"
