@@ -8,7 +8,7 @@ on:
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:
-  OUTPUTS_OF_INTEREST: "ecr_respository_url vpc_id ECS_TASK_DEFINITION CONTAINER_NAME" #this space-separated string can be treated as an array directly within loops, as Bash automatically splits strings by whitespace.
+  OUTPUTS_OF_INTEREST: "ecr_repository_url vpc_id ECS_TASK_DEFINITION CONTAINER_NAME" #this space-separated string can be treated as an array directly within loops, as Bash automatically splits strings by whitespace.
 
 jobs:
   extract-terraform-outputs:
@@ -43,8 +43,8 @@ jobs:
       
       - name: Print Terraform Outputs
         run: |
-            echo "ECR_REPOSITORY=${{ env.ecr_respository_url }}"
-            echo "ECS_SERVICE=${{ env.ECS_SERVICE }}"
+            echo "ECR_REPOSITORY=${{ env.ecr_repository_url }}"
+            echo "ECS_SERVICE=${{ env.vpc_id }}"
             echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}"
             echo "ECS_TASK_DEFINITION=${{ env.ECS_TASK_DEFINITION }}"
             echo "CONTAINER_NAME=${{ env.CONTAINER_NAME }}"
