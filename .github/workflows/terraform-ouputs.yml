@@ -38,6 +38,7 @@ jobs:
             for key in $KEYS_OF_INTEREST; do
               value=$(terraform output -raw $key 2>/dev/null || echo "Output not found")   #In bash, 1 means stdout, 2 means stderr(standard error stream). 2> /dev/null means that, redirect the error output from this command to /dev/null. Essentially meaning, just get rid of the error messages
               echo "$key=$value" >> $GITHUB_ENV
+              echo "$value"
             done
       
       - name: Print Terraform Outputs
