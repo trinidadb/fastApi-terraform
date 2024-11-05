@@ -7,6 +7,8 @@ on:
       - master
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
+env:
+  OUTPUTS_OF_INTEREST: "ECR_REPOSITORY ECS_SERVICE ECS_CLUSTER ECS_TASK_DEFINITION CONTAINER_NAME" #this space-separated string can be treated as an array directly within loops, as Bash automatically splits strings by whitespace.
 
 jobs:
   extract-terraform-outputs:
@@ -33,6 +35,8 @@ jobs:
       - name: Get Specific Terraform Outputs
         id: terraform-outputs
         run: |
-            output=$(terraform output vpc_id)
-            echo $output
+            for key in $KEYS_OF_INTEREST; do
+              value=$(terraform output -raw $key 2>/dev/null || echo "Output not found")   #In bash, 1 means stdout, 2 means stderr(standard error stream). 2> /dev/null means that, redirect the error output from this command to /dev/null. Essentially meaning, just get rid of the error messages
+              echo "$key=$value" >> $GITHUB_ENV
+            done
       
