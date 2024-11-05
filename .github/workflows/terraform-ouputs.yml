@@ -42,7 +42,8 @@ jobs:
       
       - name: Print Terraform Outputs
         run: |
-            keys=($KEYS_OF_INTEREST)
-            for key in "${keys[@]}"; do
-                echo "$key=${{ env.$key }}"
-            done
+            echo "ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}"
+            echo "ECS_SERVICE=${{ env.ECS_SERVICE }}"
+            echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}"
+            echo "ECS_TASK_DEFINITION=${{ env.ECS_TASK_DEFINITION }}"
+            echo "CONTAINER_NAME=${{ env.CONTAINER_NAME }}"
