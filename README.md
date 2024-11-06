@@ -1,5 +1,5 @@
 # Playing with FastAPI, Terraform and GitHub Actions
-The objective of this project was to create a scalable API structure/template using the FastAPI framework. Containerize the application and deploy it on AWS in a single region and across one or multiple availability zones.
+This project aimed to create a scalable API structure/template using the FastAPI framework. Containerize the application and deploy it on AWS in a single region and across one or multiple availability zones.
 
 The AWS structure is as follows:
 
@@ -7,9 +7,9 @@ The AWS structure is as follows:
 
 **By default two public subnets, each in one AZ*
 
-When a push is done to the master branch, if the infrastructure had already been provisioned, the docker image is going to be updated in ECR/ECS.
+When a push is made to the master branch, if the infrastructure has already been provisioned, the docker image will be updated in ECR/ECS.
 
-For info on how to create a secret, refer to: https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions
+For information on how to create a secret, refer to: [using secrets in GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 
 ## Warning
 - Always ensure to destroy your infrastructure after usage. Forgetting to do so could incur high AWS fees.
