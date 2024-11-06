@@ -32,7 +32,9 @@ on:
       - master
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
-# env:
+env:
+  TF_WORKING_DIR: infra
+  APP_DOCKER_WORKING_DIR: my-app
 #   AWS_REGION: ${{ env.region }}                       # set this to your preferred AWS region, e.g. us-west-1
 #   ECR_REPOSITORY: ${{ env.ecr_repository_name }}       # set this to your Amazon ECR repository name
 #   ECS_SERVICE: ${{ env.ecs_service_name }}          # set this to your Amazon ECS service name
@@ -59,7 +61,7 @@ jobs:
       uses: ./.github/actions/get-terraform-outputs
       with:
         outputs_of_interest: "region ecr_repository_name ecs_service_name ecs_cluster_name ecs_task_definition ecs_container_name"
-        tf_working_dir: "infra"
+        tf_working_dir: ${{ env.TF_WORKING_DIR }}
 
     - name: Map Terraform Outputs to Environment Variables
       run: |
@@ -90,7 +92,8 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        cd ${{ env.APP_DOCKER_WORKING_DIR }}
+        docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
