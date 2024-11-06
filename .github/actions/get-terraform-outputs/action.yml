@@ -12,6 +12,7 @@ inputs:
 outputs:
   output_file:
     description: "The path to the generated outputs.env file."
+    value: ${{ inputs.working_directory }}/outputs.env
 
 runs:
   using: "composite"
@@ -27,6 +28,7 @@ runs:
     - name: Initialize Terraform
       run: terraform init
       working-directory: ${{ inputs.working_directory }}
+      shell: bash
 
     - name: Extract Terraform Outputs
       run: |
@@ -36,6 +38,8 @@ runs:
           echo "$value"
         done
       working-directory: ${{ inputs.working_directory }}
+      shell: bash
 
     - name: Set output path
       run: echo "output_file=${{ inputs.working_directory }}/outputs.env" >> $GITHUB_ENV
+      shell: bash
