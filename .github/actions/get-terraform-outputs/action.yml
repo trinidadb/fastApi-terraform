@@ -31,11 +31,13 @@ runs:
       run: |
         for output in ${{ inputs.outputs_of_interest }}; do
           value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")
-          echo "$output=$value" >> $GITHUB_ENV #outputs.env
+          echo "$output=$value" >> $GITHUB_ENV
         done
       working-directory: ${{ inputs.working_directory }}
       shell: bash
 
+    # echo "$output=$value" >> outputs.env
+    # ......
     # - name: Set output path dynamically
     #   run: echo "output_file=${{ inputs.working_directory }}/outputs.env" >> $GITHUB_ENV
     #   shell: bash
