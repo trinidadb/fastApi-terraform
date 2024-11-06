@@ -46,10 +46,6 @@ output "ecs_cluster_name" {
   value = module.deployment.ecs_cluster_name
 }
 
-output "ecs_task_definition" {
-  value = module.deployment.ecs_task_definition
-}
-
 output "ecs_container_name" {
   value = module.deployment.ecs_container_name
 }
