@@ -27,8 +27,9 @@
 name: Deploy to Amazon ECS
 
 on:
-  workflow_run:
-    workflows: [terraform-output]
+  push:
+    branches:
+      - master
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 # env:
@@ -54,22 +55,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4     # This is an action that checks out your repository onto the runner, allowing you to run scripts or other actions against your code (such as build and test tools). You should use the checkout action any time your workflow will use the repository's code.
 
-
-    - name: Download Terraform Outputs Artifact
-      uses: actions/download-artifact@v3
+    - name: Get Terraform Outputs
+      uses: ./.github/actions/get-terraform-outputs
       with:
-        name: terraform-outputs
-        path: ./infra  # Download to the current directory
+        outputs_of_interest: "region ecr_repository_name ecs_service_name ecs_cluster_name ecs_task_definition ecs_container_name"
+        tf_working_dir: "infra"
 
-    - name: Load Outputs as Environment Variables
+    - name: Map Terraform Outputs to Environment Variables
       run: |
-        set -a
-        source outputs.env
-        set +a
-
-    - name: Verify environment variables
-      run: |
-        echo "AWS_REGION=${{ env.AWS_REGION }}"
+        echo "AWS_REGION=${{ env.region }}" >> $GITHUB_ENV
+        echo "ECR_REPOSITORY=${{ env.ecr_repository_name }}" >> $GITHUB_ENV
+        echo "ECS_SERVICE=${{ env.ecs_service_name }}" >> $GITHUB_ENV
+        echo "ECS_CLUSTER=${{ env.ecs_cluster_name }}" >> $GITHUB_ENV
+        echo "ECS_TASK_DEFINITION=${{ env.ecs_task_definition }}" >> $GITHUB_ENV
+        echo "CONTAINER_NAME=${{ env.ecs_container_name }}" >> $GITHUB_ENV
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
