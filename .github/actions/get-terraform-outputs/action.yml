@@ -35,7 +35,6 @@ runs:
         for output in ${{ inputs.outputs_of_interest }}; do
           value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")
           echo "$output=$value" >> $GITHUB_ENV #outputs.env
-          echo "$value"
         done
       working-directory: ${{ inputs.working_directory }}
       shell: bash
