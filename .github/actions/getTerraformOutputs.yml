@@ -1,0 +1,41 @@
+name: "Get Terraform Outputs"
+description: "A composite action to retrieve specific Terraform outputs and save them in an outputs.env file."
+
+inputs:
+  outputs_of_interest:
+    description: "Space-separated list of Terraform outputs to extract."
+    required: true
+  working_directory:
+    description: "Directory containing the terraform.tfstate file."
+    required: true
+
+outputs:
+  output_file:
+    description: "The path to the generated outputs.env file."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Initialize Terraform
+      run: terraform init
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: Extract Terraform Outputs
+      run: |
+        for output in ${{ inputs.outputs_of_interest }}; do
+          value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")
+          echo "$output=$value" >> outputs.env
+          echo "$value"
+        done
+      working-directory: ${{ inputs.working_directory }}
+
+    - name: Set output path
+      run: echo "output_file=${{ inputs.working_directory }}/outputs.env" >> $GITHUB_ENV
