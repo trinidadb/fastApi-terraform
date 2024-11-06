@@ -40,6 +40,6 @@ runs:
       working-directory: ${{ inputs.working_directory }}
       shell: bash
 
-    - name: Set output path
+    - name: Set output path dynamically
       run: echo "output_file=${{ inputs.working_directory }}/outputs.env" >> $GITHUB_ENV
       shell: bash

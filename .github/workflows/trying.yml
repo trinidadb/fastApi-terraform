@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Use Get Terraform Outputs Action
         uses: ./.github/actions/get-terraform-outputs
         with:
