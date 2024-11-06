@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'my-app/**'  # Only trigger when changes are made in the 'my-app' directory
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:
