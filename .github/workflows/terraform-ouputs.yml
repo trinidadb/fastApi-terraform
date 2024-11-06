@@ -8,7 +8,7 @@ on:
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:
-  OUTPUTS_OF_INTEREST: "ecr_repository_url vpc_id ECS_TASK_DEFINITION CONTAINER_NAME" #this space-separated string can be treated as an array directly within loops, as Bash automatically splits strings by whitespace.
+  OUTPUTS_OF_INTEREST: "region ecr_repository_name ecs_service_name ecs_cluster_name ecs_task_definition ecs_container_name" #this space-separated string can be treated as an array directly within loops, as Bash automatically splits strings by whitespace.
 
 jobs:
   extract-terraform-outputs:
@@ -37,14 +37,13 @@ jobs:
         run: |
             for output in $OUTPUTS_OF_INTEREST; do
               value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")   #In bash, 1 means stdout, 2 means stderr(standard error stream). 2> /dev/null means that, redirect the error output from this command to /dev/null. Essentially meaning, just get rid of the error messages
-              echo "$output=$value" >> $GITHUB_ENV
+              echo "$output=$value" >> outputs.env
               echo "$value"
             done
       
-      - name: Print Terraform Outputs
-        run: |
-            echo "ECR_REPOSITORY=${{ env.ecr_repository_url }}"
-            echo "ECS_SERVICE=${{ env.vpc_id }}"
-            echo "ECS_CLUSTER=${{ env.ECS_CLUSTER }}"
-            echo "ECS_TASK_DEFINITION=${{ env.ECS_TASK_DEFINITION }}"
-            echo "CONTAINER_NAME=${{ env.CONTAINER_NAME }}"
+      # Establecer el working-directory en infra no afectará a dónde se guarda el artefacto en GitHub Actions
+      - name: Upload Outputs as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: terraform-outputs
+            path: outputs.env
