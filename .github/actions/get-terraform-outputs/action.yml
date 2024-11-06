@@ -1,5 +1,5 @@
 name: "Get Terraform Outputs"
-description: "A composite action to retrieve specific Terraform outputs and save them in an outputs.env file."
+description: "A composite action to retrieve specific Terraform outputs"
 
 inputs:
   outputs_of_interest:
@@ -24,7 +24,7 @@ runs:
 
     - name: Initialize Terraform
       run: terraform init
-      working-directory: ${{ inputs.working_directory }}
+      working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
 
     - name: Extract Terraform Outputs
@@ -33,7 +33,7 @@ runs:
           value=$(terraform output -raw $output 2>/dev/null || echo "Output not found")
           echo "$output=$value" >> $GITHUB_ENV
         done
-      working-directory: ${{ inputs.working_directory }}
+      working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
 
     # echo "$output=$value" >> outputs.env
