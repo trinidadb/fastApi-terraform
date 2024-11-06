@@ -59,12 +59,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: terraform-outputs
-        path: .  # Download to the current directory
+        path: ./infra  # Download to the current directory
 
     - name: Load Outputs as Environment Variables
       run: |
         set -a
-        source infra/outputs.env
+        source outputs.env
         set +a
 
     - name: Verify environment variables
