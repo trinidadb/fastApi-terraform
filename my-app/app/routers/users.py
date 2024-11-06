@@ -10,6 +10,11 @@ async def read_user_me(msg: Optional[str]=None):
     msg = msg or "Hey! It's you! :D"
     return {"msg": msg}
 
+@router.get('/other')
+async def read_user_me(msg: Optional[str]=None):
+    msg = msg or "Hey! It's not you! :D"
+    return {"msg": msg}
+
 @router.get('/error')
 async def raise_error():
     raise HTTPException(status_code=500, detail="Error forzado por el server")
