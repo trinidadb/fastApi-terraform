@@ -43,7 +43,7 @@ jobs:
       
       # Establecer el working-directory en infra no afectará a dónde se guarda el artefacto en GitHub Actions
       - name: Upload Outputs as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
             name: terraform-outputs
             path: infra/outputs.env

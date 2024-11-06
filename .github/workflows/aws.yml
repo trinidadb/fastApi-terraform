@@ -64,7 +64,7 @@ jobs:
     - name: Load Outputs as Environment Variables
       run: |
         set -a
-        source outputs.env
+        source infra/outputs.env
         set +a
 
     - name: Verify environment variables
