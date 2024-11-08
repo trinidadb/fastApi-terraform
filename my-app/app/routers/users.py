@@ -3,15 +3,15 @@ from typing import Optional
 
 from app.modules.users import UserProfile
 
-router = APIRouter(tags = ['usersManager'])
+router = APIRouter(tags=['usersManager'])
 
 @router.get('/me')
-async def read_user_me(msg: Optional[str]=None):
+async def read_user_me(msg: Optional[str] = None):
     msg = msg or "Hey! It's you! :D"
     return {"msg": msg}
 
 @router.get('/other')
-async def read_user_me(msg: Optional[str]=None):
+async def read_other_me(msg: Optional[str] = None):
     msg = msg or "Hey! It's not you! :D"
     return {"msg": msg}
 
@@ -24,7 +24,7 @@ async def read_user(username: str):
     return {"msg": f"Your username is {username}"}
 
 @router.get('/{username}/groups/{group}')
-async def read_user_me(username: str, group: str):
+async def read_user_groups(username: str, group: str):
     return {"msg": f"Will bring the information of {group} group, to which {username} belongs"}
 
 @router.post("/create")
@@ -37,4 +37,4 @@ async def update_user(age: int):
 
 @router.delete("/delete/{username}")
 async def delete_user():
-    return {"msg": f"Will delete user (or not?)"}
+    return {"msg": "Will delete user (or not?)"}

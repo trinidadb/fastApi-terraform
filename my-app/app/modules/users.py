@@ -7,7 +7,7 @@ from app.modules.utils import async_wrap
 USERS = pd.DataFrame()
 
 
-class UserProfile(BaseModel): 
+class UserProfile(BaseModel):
     username: str
     password: str
     confirmation_password: str
@@ -19,30 +19,30 @@ class UserProfile(BaseModel):
         if len(password) < 4:
             raise ValueError('La longitud mínima  es de 4 caracteres.')
         return password
-    
+
     @field_validator('confirmation_password')
-    def passwords_match(cls, confirmation_password, values, **kwargs):  
+    def passwords_match(cls, confirmation_password, values, **kwargs):
         if 'password' in values.data and confirmation_password != values.data['password']:
             raise ValueError('Las contraseñas no coinciden')
         return confirmation_password
 
-def get_users_from_csv(filePath = "app/static/contacts.csv"):
-        return pd.read_csv(filePath)
+def get_users_from_csv(filePath="app/static/contacts.csv"):
+    return pd.read_csv(filePath)
 
-def write_users_to_csv(users_obj_list, filePath = "app/static/contacts.csv"):
+def write_users_to_csv(users_obj_list, filePath="app/static/contacts.csv"):
     users_data = [user.dict() for user in users_obj_list]
     df = pd.DataFrame(users_data)
-    df.to_csv(filePath, index=False)  
+    df.to_csv(filePath, index=False)
 
 def process_users(df_users):
     users = []
     for _, row in df_users.iterrows():
         user = UserProfile(
-            username = row['username'],
-            password = row['password'],
-            confirmation_password = row['confirmation_password'],
-            email = row['email'],
-            age = row['age'] if not pd.isnull(row['age']) else None
+            username=row['username'],
+            password=row['password'],
+            confirmation_password=row['confirmation_password'],
+            email=row['email'],
+            age=row['age'] if not pd.isnull(row['age']) else None
         )
         users.append(user)
 
@@ -50,7 +50,7 @@ def process_users(df_users):
 
 
 async_get_users_from_csv = async_wrap(get_users_from_csv)
-async_write_users_to_csv = async_wrap(write_users_to_csv)  
+async_write_users_to_csv = async_wrap(write_users_to_csv)
 
 async def get_init_users():
     global USERS

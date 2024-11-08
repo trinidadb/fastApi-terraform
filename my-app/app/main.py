@@ -9,7 +9,7 @@ import app.routers.users as usersRouter
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):  #To see the use of this refer to: https://fastapi.tiangolo.com/advanced/events/ . But this code it's executed once before/after the api starts/finishes
+async def lifespan(app: FastAPI):  # To see the use of this refer to: https://fastapi.tiangolo.com/advanced/events/ . But this code it's executed once before/after the api starts/finishes
     await initialize()
     yield
     await on_finish()
@@ -25,7 +25,8 @@ def read_root():
     return {"Hello": "World"}
 
 
-# This will serve favicon.ico from the static folder. This is so the code doesn't output an error
+# This will serve favicon.ico from the static folder.
+# Before this the code output an error->fastapi automatically searches favicon.ico
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return {"file": "static/favicon.ico"}

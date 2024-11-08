@@ -26,15 +26,18 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Set up Python 3.10
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
-        python-version: "3.10"
+        python-version: ${{ matrix.python-version }}
 
     - name: Install dependencies
       run: |
@@ -54,11 +57,19 @@ jobs:
     #   run: |
     #     pylint $(git ls-files '*.py')
 
-    # - name: Test with pytest
-    #   run: |
-    #     pytest
+    - name: Test with pytest
+      run: |
+        pytest --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
 
     # For reference, read: https://pypi.org/project/bandit/1.6.3/
+
+    - name: Upload pytest test results
+      uses: actions/upload-artifact@v4
+      if: ${{ always() }}
+      with:
+        name: pytest-results-${{ matrix.python-version }}
+        path: junit/test-results-${{ matrix.python-version }}.xml
+
     - name: Security scan with bandit
       run: bandit -l -ii -r ${{ env.PYTHON_CODE_DIR }} -f json -o bandit-report.json
 
