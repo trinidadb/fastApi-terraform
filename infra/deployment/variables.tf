@@ -13,7 +13,7 @@ variable "env" {
 variable "namespace" {
   type        = string
   description = "namespace, which is the name of the app"
-  default     = "my-app"
+  default     = "my_app"
 }
 
 variable "az_count" {
