@@ -1,7 +1,6 @@
 from unittest import mock, TestCase
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app  # Assuming the file is named `main.py`
 
 
 class TestGenericFunctionaliti(TestCase): 
@@ -13,6 +12,7 @@ class TestGenericFunctionaliti(TestCase):
         """
         Test that `initialize` and `on_finish` are called correctly within the lifespan context manager.
         """
+        from app.main import app   # It's imported iniside so the original "initialize" and "on_finish" aren't called/imported
 
         with TestClient(app) as client:
             response = client.get("/")
