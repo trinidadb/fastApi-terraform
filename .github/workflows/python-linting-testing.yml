@@ -7,17 +7,17 @@ on:
   push:
     branches: [ "master" ]
     paths:
-      - "my-app/**"
+      - "my_app/**"
   pull_request:
     branches: [ "master" ]
     paths:
-      - "my-app/**"
+      - "my_app/**"
   schedule:
     - cron: '59 23 * * 3' # Every Wednesday at 23:59
   workflow_dispatch:      # Allows you to manually trigger the workflow
 
 env:
-  PYTHON_CODE_DIR: my-app
+  PYTHON_CODE_DIR: my_app
 
 permissions:
   contents: read

@@ -8,12 +8,12 @@ on:
     branches:
       - master
     paths:
-      - 'my-app/**'  # Only trigger when changes are made in the 'my-app' directory
+      - 'my_app/**'  # Only trigger when changes are made in the 'my_app' directory
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:
   TF_WORKING_DIR: infra
-  APP_DOCKER_WORKING_DIR: my-app
+  APP_DOCKER_WORKING_DIR: my_app
 
 permissions:
   contents: read
