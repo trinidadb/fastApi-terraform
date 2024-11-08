@@ -13,8 +13,8 @@ on:
     paths:
       - "my-app/**"
   schedule:
-    - cron: '59 23 * * 3' # Todos los miercoles a las 23:59
-  workflow_dispatch:  # Allows you to manually trigger the workflow
+    - cron: '59 23 * * 3' # Every Wednesday at 23:59
+  workflow_dispatch:      # Allows you to manually trigger the workflow
 
 env:
   PYTHON_CODE_DIR: my-app
@@ -69,7 +69,7 @@ jobs:
         path: junit/test-results-${{ matrix.python-version }}.xml
 
     # For reference regarding -ii -l..., read: https://pypi.org/project/bandit/1.6.3/
-    - name: Security scan with bandit
+    - name: Vulnerability scanning with bandit
       run: bandit -l -ii -r ${{ env.PYTHON_CODE_DIR }} -f json -o bandit-report-${{ matrix.python-version }}.json
 
     - name: Upload bandit scan artifact
