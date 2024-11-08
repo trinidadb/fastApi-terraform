@@ -43,7 +43,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install flake8 pytest pylint bandit
-        if [ -f ${{ env.PYTHON_CODE_DIR }}/requirements.txt ]; then pip install -r ${{ env.PYTHON_CODE_DIR }}/requirements.txt; fi
+        if [ -f ${{ env.PYTHON_CODE_DIR }}/tests/requirements.txt ]; then pip install -r ${{ env.PYTHON_CODE_DIR }}/tests/requirements.txt; fi
 
     - name: Lint with flake8
       run: |
@@ -61,8 +61,6 @@ jobs:
       run: |
         pytest ${{ env.PYTHON_CODE_DIR }}/tests --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
 
-    # For reference, read: https://pypi.org/project/bandit/1.6.3/
-
     - name: Upload pytest test results
       uses: actions/upload-artifact@v4
       if: ${{ always() }}
@@ -70,6 +68,7 @@ jobs:
         name: pytest-results-${{ matrix.python-version }}
         path: junit/test-results-${{ matrix.python-version }}.xml
 
+    # For reference regarding -ii -l..., read: https://pypi.org/project/bandit/1.6.3/
     - name: Security scan with bandit
       run: bandit -l -ii -r ${{ env.PYTHON_CODE_DIR }} -f json -o bandit-report-${{ matrix.python-version }}.json
 
