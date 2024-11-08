@@ -1,0 +1,17 @@
+# Set update schedule for GitHub Actions
+# For reference check:
+# 1. https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates
+# 2. https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions
+
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: 
+      interval: "weekly" # Check for updates once a week
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly" 
