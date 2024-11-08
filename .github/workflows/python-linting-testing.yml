@@ -12,6 +12,8 @@ on:
     branches: [ "master" ]
     paths:
       - "my-app/**"
+  schedule:
+    - cron: '59 23 * * 3' # Todos los miercoles a las 23:59
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:

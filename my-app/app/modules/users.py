@@ -6,6 +6,7 @@ from app.modules.utils import async_wrap
 
 USERS = pd.DataFrame()
 
+
 class UserProfile(BaseModel): 
     username: str
     password: str
@@ -29,7 +30,6 @@ def get_users_from_csv(filePath = "app/static/contacts.csv"):
         return pd.read_csv(filePath)
 
 def write_users_to_csv(users_obj_list, filePath = "app/static/contacts.csv"):
-    print(users_obj_list)
     users_data = [user.dict() for user in users_obj_list]
     df = pd.DataFrame(users_data)
     df.to_csv(filePath, index=False)  
@@ -38,11 +38,11 @@ def process_users(df_users):
     users = []
     for _, row in df_users.iterrows():
         user = UserProfile(
-            username=row['username'],
-            password=row['password'],
-            confirmation_password=row['confirmation_password'],
-            email=row['email'],
-            age=row['age'] if not pd.isnull(row['age']) else None
+            username = row['username'],
+            password = row['password'],
+            confirmation_password = row['confirmation_password'],
+            email = row['email'],
+            age = row['age'] if not pd.isnull(row['age']) else None
         )
         users.append(user)
 
@@ -59,5 +59,4 @@ async def get_init_users():
 
 async def write_final_users():
     global USERS
-    print(USERS)
     await async_write_users_to_csv(USERS)
