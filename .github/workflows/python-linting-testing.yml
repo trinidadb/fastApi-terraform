@@ -59,7 +59,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest ${{ env.PYTHON_CODE_DIR }}/tests --resultlog=testLogs/logs-${{ matrix.python-version }}.txt --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
+        pytest ${{ env.PYTHON_CODE_DIR }}/tests --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
 
     - name: Upload pytest test results xml
       uses: actions/upload-artifact@v4
@@ -67,13 +67,6 @@ jobs:
       with:
         name: pytest-results-xml-${{ matrix.python-version }}
         path: junit/test-results-${{ matrix.python-version }}.xml
-
-    - name: Upload pytest test results xml
-      uses: actions/upload-artifact@v4
-      if: ${{ always() }}
-      with:
-        name: pytest-logs-${{ matrix.python-version }}
-        path: testLogs/logs-${{ matrix.python-version }}.txt
 
     # For reference regarding -ii -l..., read: https://pypi.org/project/bandit/1.6.3/
     - name: Security scan with bandit
