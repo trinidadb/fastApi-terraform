@@ -59,7 +59,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest ${{ env.PYTHON_CODE_DIR }} --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
+        pytest ${{ env.PYTHON_CODE_DIR }}/tests --junitxml=junit/test-results-${{ matrix.python-version }}.xml 
 
     # For reference, read: https://pypi.org/project/bandit/1.6.3/
 
@@ -71,7 +71,7 @@ jobs:
         path: junit/test-results-${{ matrix.python-version }}.xml
 
     - name: Security scan with bandit
-      run: bandit -l -ii -r ${{ env.PYTHON_CODE_DIR }} -f json -o bandit-report.json
+      run: bandit -l -ii -r ${{ env.PYTHON_CODE_DIR }} -f json -o bandit-report-${{ matrix.python-version }}.json
 
     - name: Upload bandit scan artifact
       uses: actions/upload-artifact@v4
