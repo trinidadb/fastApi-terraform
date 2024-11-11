@@ -43,8 +43,8 @@ jobs:
       - name: Analyze with SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: sqa_e3b27f17c8fd76f3564cd5af6a96debcc58f34e9
-          SONAR_HOST_URL : "http://localhost:9000"
+          SONAR_TOKEN: sqa_9f1785d7c13676115cbebfe5dc80cde39d116624
+          SONAR_HOST_URL : "http://localhost:9001"
           # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on SonarQube, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
           # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}   # add the URL of your instance to the secrets of this repo with the name SONAR_HOST_URL (Settings > Secrets > Actions > add new repository secret)
 
