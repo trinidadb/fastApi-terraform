@@ -50,3 +50,9 @@ make destroy-service
 
 ## Project Enhancements
 The next phase of this project will focus on using NAT gateways to reduce the use of public IPs, thereby lowering AWS billing costs. New components will be added, and further generalization is planned to enhance scalability.
+
+Github actions can't connect to services running locally on your machine. GitHub-hosted runners don’t have direct access to services running on localhost of your local machine.
+
+Alternatively, set up a self-hosted runner on your local machine where SonarQube is running. This way, the localhost connection should work since both the runner and SonarQube are on the same machine.
+
+runs-on: self-hosted
