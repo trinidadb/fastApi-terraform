@@ -31,5 +31,6 @@ def read_root():
 async def favicon():
     return {"file": "static/favicon.ico"}
 
+
 # To run the code: python -m uvicorn app.main:app --reload
 # Check for secure communication: https://github.com/skatesham/fastapi-bigger-application/blob/master/app/src/routers/stocks.py
