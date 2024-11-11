@@ -26,7 +26,7 @@ def read_root():
 
 
 # This will serve favicon.ico from the static folder.
-# Before this the code output an error->fastapi automatically searches favicon.ico
+# Before this the code output an error -> fastapi automatically searches favicon.ico
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return {"file": "static/favicon.ico"}

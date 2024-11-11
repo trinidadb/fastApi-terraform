@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Update container image in AWS ECS
     runs-on: ubuntu-latest
     environment: production
 

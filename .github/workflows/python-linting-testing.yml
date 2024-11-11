@@ -31,6 +31,7 @@ permissions:
 jobs:
   build:
 
+    name: Python ${{ matrix.python-version }} checks
     runs-on: ubuntu-latest
     strategy:
       matrix:
