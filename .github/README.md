@@ -35,3 +35,34 @@ Click the “New workflow” button and select “Set up a workflow yourself”.
 Give your workflow a name and create a new YAML file.
 Paste the yml file as we copied before..
 Paste the “sonar-project.properties” file.
+
+
+
+
+Yes, you can configure GitHub Actions to only allow a pull request to be merged when all workflow checks (such as CodeQL, Dependabot Updates, Deployment, Python Application tests, and SonarQube analysis) have passed. This can be achieved by setting up branch protection rules in your repository. Here’s how you can do it:
+
+Step-by-Step Guide to Enforce Checks on Pull Requests
+Go to Your GitHub Repository Settings:
+
+Navigate to your GitHub repository and go to Settings.
+Configure Branch Protection Rules:
+
+In the left sidebar, select Branches.
+Under Branch protection rules, click Add rule.
+Specify the Branch to Protect:
+
+In the Branch name pattern field, enter the branch you want to protect (e.g., master or main).
+Enable Required Status Checks:
+
+Check Require status checks to pass before merging.
+In the Status checks that are required field, select each of your workflow actions (e.g., "CodeQL Advanced", "Dependabot Updates", "Deploy to Amazon ECS", "Python application", "SonarQube analysis") as required checks.
+This means that all selected checks must pass before the pull request can be merged.
+Enable Additional Protection Options (Optional):
+
+You may also enable Require pull request reviews before merging to ensure that each pull request gets a review.
+Check Require conversation resolution before merging to ensure all discussions in the pull request are resolved.
+Save the Protection Rule:
+
+Click Create or Save changes to enforce the rule.
+Result
+With this setup, GitHub will prevent the pull request from being merged unless all configured checks (i.e., each workflow in your Actions list) have passed. This enforces quality and ensures that only validated code is merged into your main branch.
