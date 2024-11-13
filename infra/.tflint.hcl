@@ -4,7 +4,7 @@
 # The file is meant to be placed alongside your Terraform code so that TFLint can use it for 
 # linting and enforcing rules in your Terraform modules.
 
-plugin "aws" {
+ plugin "aws" {
     enabled = true
     version = "0.34.0"
     source  = "github.com/terraform-linters/tflint-ruleset-aws"
