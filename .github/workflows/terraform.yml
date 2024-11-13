@@ -12,6 +12,10 @@ on:
 env:
   TF_WORKING_DIR: infra
 
+permissions:
+  security-events: write
+
+
 jobs:
   tf-lint:
     name: tflint
@@ -72,7 +76,7 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
-          
+
 
       # # Step 6: Run Checkov (misconfiguration checks)
       # - name: Run Checkov
