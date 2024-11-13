@@ -64,11 +64,12 @@ jobs:
           # Generates results in SARIF (a standardized format that integrates well with GitHub’s Security tab)
           format: 'sarif'
           output: 'trivy-results.sarif'
-          # Ensures that the action fails if it finds issues at these levels, which is useful for CI/CD enforcement.
-          exit-code: '0'
+          # Setting it to '1' ensures that the action fails if it finds issues at these levels, which is useful for CI/CD enforcement.
+          exit-code: '1'
           # Reduces clutter by skipping issues that don’t yet have fixes.
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+        continue-on-error: true  # Continue to next steps even if this step fails
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
