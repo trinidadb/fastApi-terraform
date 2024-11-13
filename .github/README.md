@@ -9,6 +9,7 @@ GitHub App Permissions.
 
 Steps To Follow
 Setup SonarQube
+https://medium.com/@s.mehrotrasahil/integrate-sonarqube-in-github-actions-d89eafc7fd69
 
 Navigate to SonarQube in your web browser.
 Log in to SonarQube with the admin credentials.

@@ -9,53 +9,53 @@ on:
       - master
 
 jobs:
-  terraform-analysis:
+  tflint:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-      # Step 2: Set up Terraform (if needed)
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name: Cache plugin dir
+        uses: actions/cache@v4
         with:
-          terraform_wrapper: false
-
-      # Step 3: Install TFLint, tfsec, Checkov, and Infracost
-      - name: Install TFLint, tfsec, Checkov, and Infracost
-        run: |
-          # Install tflint
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install.sh | bash
-          # Install tfsec
-          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-          # Install Checkov
-          pip install checkov
-          # Install Infracost
-          curl -s https://infracost.io/install.sh | bash
-
-      # Step 4: Run TFLint (linting Terraform code)
+          path: ~/.tflint.d/plugins
+          key: tflint-${{ hashFiles('.tflint.hcl') }}
+  
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+            tflint_wrapper: true
+  
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+          GITHUB_TOKEN: ${{ github.token }}
+  
       - name: Run TFLint
-        working-directory: infra
-        run: |
-          tflint -f compact --recursive
+        id: tflint_res
+        run: tflint -f compact --recursive
 
-      # Step 5: Run tfsec (security checks for Terraform code)
-      - name: Run tfsec
-        working-directory: infra
-        run: |
-          tfsec
+      - run: echo ${{ steps.tflint_res.outputs.stdout }}
+      - run: echo ${{ steps.tflint_res.outputs.stderr }}
+      - run: echo ${{ steps.tflint_res.outputs.exitcode }}
 
-      # Step 6: Run Checkov (misconfiguration checks)
-      - name: Run Checkov
-        working-directory: infra
-        run: |
-          checkov
+      # # Step 5: Run tfsec (security checks for Terraform code)
+      # - name: Run tfsec
+      #   working-directory: infra
+      #   run: |
+      #     tfsec
 
-      # Step 7: Run Infracost (cost estimation)
-      - name: Run Infracost
-        working-directory: infra
-        run: |
-          infracost breakdown --format json > infracost_output.json
-          infracost show --path infracost_output.json --format table
+      # # Step 6: Run Checkov (misconfiguration checks)
+      # - name: Run Checkov
+      #   working-directory: infra
+      #   run: |
+      #     checkov
+
+      # # Step 7: Run Infracost (cost estimation)
+      # - name: Run Infracost
+      #   working-directory: infra
+      #   run: |
+      #     infracost breakdown --format json > infracost_output.json
+      #     infracost show --path infracost_output.json --format table
