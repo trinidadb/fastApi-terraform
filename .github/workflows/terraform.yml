@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.tflint.d/plugins
-          key: tflint-${{ hashFiles('.tflint.hcl') }}
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
   
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
@@ -34,12 +34,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
   
       - name: Run TFLint
-        id: tflint_res
+        working-directory: infra
         run: tflint -f compact --recursive
-
-      - run: echo ${{ steps.tflint_res.outputs.stdout }}
-      - run: echo ${{ steps.tflint_res.outputs.stderr }}
-      - run: echo ${{ steps.tflint_res.outputs.exitcode }}
 
       # # Step 5: Run tfsec (security checks for Terraform code)
       # - name: Run tfsec
