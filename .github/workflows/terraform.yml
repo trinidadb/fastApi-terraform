@@ -34,13 +34,13 @@ jobs:
             tflint_wrapper: true
   
       - name: Init TFLint
-        working-directory: infra
+        working-directory: ${{ env.TF_WORKING_DIR }}
         run: tflint --init
         env:
           GITHUB_TOKEN: ${{ github.token }}
   
       - name: Run TFLint
-        working-directory: infra
+        working-directory: ${{ env.TF_WORKING_DIR }}
         run: tflint -f compact --recursive
 
       # # Step 5: Run tfsec (security checks for Terraform code)
