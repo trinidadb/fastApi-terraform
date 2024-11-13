@@ -34,6 +34,7 @@ jobs:
             tflint_wrapper: true
   
       - name: Init TFLint
+        working-directory: infra
         run: tflint --init
         env:
           GITHUB_TOKEN: ${{ github.token }}
