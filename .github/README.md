@@ -81,3 +81,31 @@ By caching dependencies and other frequently reused files, we can significantly 
 key: Required The key created when saving a cache and the key used to search for a cache. It can be any combination of variables, context values, static strings, and functions. 
 
 path: Required The path(s) on the runner to cache or restore. Example for npm dependendencies: path: we specify the cache location (~/.npm) where npm stores the downloaded modules.
+
+
+Enable and disable workflows:
+https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/disabling-and-enabling-a-workflow
+
+
+
+Using SARIF instead of JSON for Trivy scan results in GitHub Actions offers several advantages, especially when integrating with GitHub’s security features. Here’s why SARIF is often preferable in this context:
+
+Integration with GitHub Security Features:
+
+SARIF (Static Analysis Results Interchange Format) is natively supported by GitHub and integrates directly with the Security tab in the repository. This allows vulnerabilities to appear within GitHub’s Code Scanning Alerts, providing a centralized view where you can track and manage issues over time.
+JSON files, while informative, don’t integrate with GitHub’s security tools in the same way. Uploading a JSON output won’t populate the Security tab, so you’d lose the streamlined experience that SARIF offers.
+Standardized Reporting Format:
+
+SARIF is a standardized format for static analysis tools, adopted by GitHub to improve interoperability between various security and code quality tools. This format is optimized for presenting static analysis results, including code scanning, vulnerability reports, and configuration misconfigurations, in a structured and detailed way.
+JSON formats can vary widely across tools, lacking the standardized structure that SARIF provides, which might make it harder to parse and integrate into automated workflows or dashboards.
+Enhanced Visualization and Filtering:
+
+When uploaded in SARIF, the vulnerabilities and misconfigurations are displayed with detailed annotations directly in the GitHub UI, highlighting affected lines of code and linking them to the specific security issues.
+The JSON output typically requires additional tooling or parsing scripts to achieve similar functionality.
+Alert Management:
+
+GitHub supports alert management and filtering for SARIF-based scans, which allows users to prioritize, assign, and manage security findings within GitHub’s Security tab. This makes it easier to triage and respond to vulnerabilities over time, especially in larger codebases or for projects with active CI/CD pipelines.
+Compatibility with Other GitHub Features:
+
+GitHub’s advanced security features, such as CodeQL, natively understand SARIF and can cross-reference these results with other scans for deeper insights and correlations across different types of security findings.
+JSON lacks the structured metadata that SARIF provides for interoperability, so it’s less compatible with these advanced features.

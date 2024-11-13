@@ -13,9 +13,9 @@ env:
   TF_WORKING_DIR: infra
 
 jobs:
-  tflint:
+  tf-lint:
+    name: tflint
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -43,11 +43,36 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: tflint -f compact --recursive
 
-      # # Step 5: Run tfsec (security checks for Terraform code)
-      # - name: Run tfsec
-      #   working-directory: infra
-      #   run: |
-      #     tfsec
+  tf-security-scan:
+    # Tfsec is included in trivy
+    name: trivy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner in IaC mode for terraform
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          # Configured to scan infrastructure-as-code (IaC) files
+          scan-type: 'config'
+          hide-progress: true
+          # Generates results in SARIF (a standardized format that integrates well with GitHub’s Security tab)
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          # Ensures that the action fails if it finds issues at these levels, which is useful for CI/CD enforcement.
+          exit-code: '1'
+          # Reduces clutter by skipping issues that don’t yet have fixes.
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        # The results from the other step will appear in GitHub’s Security tab.
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+          
 
       # # Step 6: Run Checkov (misconfiguration checks)
       # - name: Run Checkov
