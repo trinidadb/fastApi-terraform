@@ -47,7 +47,7 @@ jobs:
         if: ${{ !github.event.pull_request }}
         run: |
           infracost breakdown --path=${{ env.TF_WORKING_DIR }} \
-                              --format=HTML \
+                              --format=html \
                               --out-file=/tmp/infracost-base.html
 
       - name: Upload Infracost baseline as artifact
