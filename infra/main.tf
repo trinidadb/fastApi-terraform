@@ -40,7 +40,7 @@ module "deployment" {
   source             = "./deployment"
   namespace          = local.namespace
   env                = local.env
-  az_count           = 2
+  az_count           = 3
   ecr_repository_url = module.setup.ecr_repository_url
   subnets_public     = true
 }
