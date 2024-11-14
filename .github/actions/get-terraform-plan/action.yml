@@ -33,7 +33,11 @@ runs:
     - name: Extract region from terraform outputs
       id: get-region
       run: |
-        value=$(terraform output -raw region 2>/dev/null || echo "Output not found")
+        value=$(terraform output -raw region 2>/dev/null)  # Try to extract region
+        if [ $? -ne 0 ]; then  # Check if terraform output failed (exit code not zero)
+          echo "Warning: Terraform output 'region' not found. Using default value."
+          value="eu-north-1"  # Default region if not found
+        fi
         echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
