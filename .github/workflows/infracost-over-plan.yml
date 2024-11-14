@@ -39,6 +39,7 @@ jobs:
 
       # Generate Infracost JSON file as the baseline.
       - name: Generate plan
+        id: plan_step
         uses: ./.github/actions/get-terraform-plan
         with:
           tf_working_dir: ${{ env.TF_WORKING_DIR }}

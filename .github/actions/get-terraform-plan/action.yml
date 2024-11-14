@@ -38,6 +38,7 @@ runs:
         #   echo "Warning: Terraform output 'region' not found. Using default value."
         #   value="eu-north-1"  # Default region if not found
         # fi
+        echo "Warning: Terraform output 'region' not found. Using default value."
         value="eu-north-1"
         echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
