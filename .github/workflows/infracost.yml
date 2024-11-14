@@ -16,10 +16,6 @@ jobs:
   infracost:
     name: infracost
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./${{ env.TF_WORKING_DIR }}
 
     steps:
       - name: Checkout source code
@@ -35,27 +31,37 @@ jobs:
         with:
           ref: '${{ github.event.pull_request.base.ref }}'
 
-      - run: echo '${{ github.event.pull_request.base.ref }}'
+      # github.event.pull_request.base.ref returns null when no present pull_request (eg. when triggered manually), and the checkout defaults to the default/main branch
 
       # Generate Infracost JSON file as the baseline.
       - name: Generate Infracost cost estimate baseline
         run: |
-          infracost breakdown --path=${TF_ROOT} \
+          infracost breakdown --path=${{ env.TF_WORKING_DIR }} \
                               --format=json \
                               --out-file=/tmp/infracost-base.json
+
+      - name: Upload Infracost baseline as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: infracost-base
+          path: /tmp/infracost-base.json
+
       # Checkout the current PR branch so we can create a diff.
       - name: Checkout PR branch
+        if: ${{ github.event.pull_request }}
         uses: actions/checkout@v3
 
       # Generate an Infracost diff and save it to a JSON file.
       - name: Generate Infracost diff
+        if: ${{ github.event.pull_request }}
         run: |
-          infracost diff --path=${TF_ROOT} \
+          infracost diff --path=${{ env.TF_WORKING_DIR }} \
                           --format=json \
                           --compare-to=/tmp/infracost-base.json \
                           --out-file=/tmp/infracost.json
                           
       - name: Post Infracost comment
+        if: ${{ github.event.pull_request }}
         run: |
             infracost comment github --path=/tmp/infracost.json \
                                       --repo=$GITHUB_REPOSITORY \

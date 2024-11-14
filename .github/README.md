@@ -1,3 +1,14 @@
+GitHub Actions automatically checks out the branch associated with the event that triggered the workflow unless otherwise specified.
+
+Here's an explanation of why this works:
+
+Default Behavior of actions/checkout:
+
+When a workflow is triggered by a pull request event (like on: pull_request), GitHub Actions automatically checks out the pull request branch by default when actions/checkout is used without specifying a branch.
+This is because GitHub Actions sets the GITHUB_REF environment variable to the pull request branch reference (e.g., refs/pull/<PR-number>/merge) when the event is a pull request. The actions/checkout@v3 action reads from this environment variable by default.
+
+
+
 Prerequisites
 Before you begin, make sure you have the following:
 
