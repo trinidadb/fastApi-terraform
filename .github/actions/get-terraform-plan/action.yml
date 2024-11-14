@@ -31,9 +31,10 @@ runs:
       shell: bash
     
     - name: Extract region from terraform outputs
+      id: get-region
       run: |
         value=$(terraform output -raw region 2>/dev/null || echo "Output not found")
-        echo "region=$value" >> $GITHUB_ENV
+        echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
 
@@ -42,7 +43,7 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.aws_access_key_id }}
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
-        aws-region: ${{ env.region }}
+        aws-region: ${{ steps.get-region.outputs.region }}
 
     - name: Terraform plan
       run: terraform plan -out tfplan.binary
