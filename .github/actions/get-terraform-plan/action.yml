@@ -5,6 +5,12 @@ inputs:
   tf_working_dir:
     description: "Directory containing the terraform.tfstate file."
     required: true
+  aws_access_key_id:
+    description: "AWS Access Key ID."
+    required: true
+  aws_secret_access_key:
+    description: "AWS Secret Access Key."
+    required: true
 
 outputs:
   tfplan_path:
@@ -26,10 +32,17 @@ runs:
     
     - name: Extract region from terraform outputs
       run: |
-        vallue=$(terraform output -raw region 2>/dev/null || echo "Output not found")
+        value=$(terraform output -raw region 2>/dev/null || echo "Output not found")
         echo "region=$value" >> $GITHUB_ENV
       working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ inputs.aws_access_key_id }}
+        aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
+        aws-region: ${{ env.region }}
 
     - name: Terraform plan
       run: terraform plan -out tfplan.binary
