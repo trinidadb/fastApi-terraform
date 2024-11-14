@@ -55,7 +55,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner in IaC mode for terraform
+      - name: Vulnerability scan with Trivy
         uses: aquasecurity/trivy-action@0.28.0
         with:
           # Configured to scan infrastructure-as-code (IaC) files
@@ -71,19 +71,29 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
+      # With the following "if" you can run a github action step even if the previous step fails. You can add "always()", but if you don't want  If you don't want the function to run when you manually cancel a job, write:
         if: failure() || success()
         uses: github/codeql-action/upload-sarif@v3
         # The results from the other step will appear in GitHub’s Security tab.
         with:
           sarif_file: 'trivy-results.sarif'
 
-
-
-      # # Step 6: Run Checkov (misconfiguration checks)
-      # - name: Run Checkov
-      #   working-directory: infra
-      #   run: |
-      #     checkov
+      - name: Vulnerability scan with Checkov
+        if: failure() || success()
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ${{ env.TF_WORKING_DIR }}
+          download_external_modules: true
+          framework: terraform
+          # This will add both a CLI output to the console and create a results.sarif file
+          output_format: cli,sarif
+          output_file_path: console,checkov-results.sarif
+        
+      - name: Upload Checkov scan results to GitHub Security tab
+        if: failure() || success()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: checkov-results.sarif
 
       # # Step 7: Run Infracost (cost estimation)
       # - name: Run Infracost
