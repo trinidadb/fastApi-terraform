@@ -30,6 +30,13 @@ jobs:
 
       # github.event.pull_request.base.ref returns null when no present pull_request (eg. when triggered manually), and the checkout defaults to the default/main branch
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.region }}
+
       # Generate Infracost JSON file as the baseline.
       - name: Generate plan
         uses: ./.github/actions/get-terraform-plan
