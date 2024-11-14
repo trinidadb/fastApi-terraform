@@ -18,11 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Infracost
-        uses: infracost/actions/setup@v3
-        with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
-
       - name: Checkout base branch
         uses: actions/checkout@v4
         with:
@@ -55,3 +50,40 @@ jobs:
         with:
           name: tfplan-json
           path: ${{ steps.plan_step.outputs.tfplan_path }}
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Generate Infracost JSON
+        run: infracost breakdown --path ${{ steps.plan_step.outputs.tfplan_path }} --format json --out-file /tmp/infracost-base.json
+
+      - name: Upload Infracost baseline as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: infracost-base-json
+          path: /tmp/infracost-base.json
+
+      - name: Generate Infracost cost estimate baseline (HTML)
+        if: ${{ !github.event.pull_request }}
+        run: |
+          infracost breakdown --path=${{ steps.plan_step.outputs.tfplan_path }} \
+                              --format=html \
+                              --out-file=/tmp/infracost-base.html
+
+      - name: Upload Infracost baseline as artifact
+        if: ${{ !github.event.pull_request }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: infracost-base-html
+          path: /tmp/infracost-base.html
+
+      - name: Post Infracost comment
+        if: ${{ github.event.pull_request }}
+        run: |
+          infracost comment github --path /tmp/infracost.json \
+                                    --repo $GITHUB_REPOSITORY \
+                                    --github-token ${{github.token}} \
+                                    --pull-request ${{github.event.pull_request.number}} \
+                                    --behavior update
