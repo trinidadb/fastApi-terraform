@@ -69,9 +69,9 @@ jobs:
           # Reduces clutter by skipping issues that don’t yet have fixes.
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
-        continue-on-error: true  # Continue to next steps even if this step fails
 
       - name: Upload Trivy scan results to GitHub Security tab
+        if: failure() || success()
         uses: github/codeql-action/upload-sarif@v3
         # The results from the other step will appear in GitHub’s Security tab.
         with:
