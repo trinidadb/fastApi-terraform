@@ -1,4 +1,4 @@
-name: Terraform Analysis
+name: Terraform analysis
 
 on:
   push:

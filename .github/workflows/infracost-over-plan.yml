@@ -1,0 +1,47 @@
+name: Infracost analysis directly over plan
+
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:      # Allows you to manually trigger the workflow
+
+env:
+  TF_WORKING_DIR: infra
+
+permissions:
+  contents: read
+
+jobs:
+  infracost:
+    name: infracost
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: '${{ github.event.pull_request.base.ref }}'
+
+      # github.event.pull_request.base.ref returns null when no present pull_request (eg. when triggered manually), and the checkout defaults to the default/main branch
+
+      # Generate Infracost JSON file as the baseline.
+      - name: Generate plan
+        uses: ./.github/actions/get-terraform-plan
+        with:
+          tf_working_dir: ${{ env.TF_WORKING_DIR }}
+
+      # Display the path to tfplan.json
+      - run: |
+          echo 'Terraform plan path: ${{ steps.plan_step.outputs.tfplan_path }}'
+
+      - name: Upload plan as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-json
+          path: ${{ steps.plan_step.outputs.tfplan_path }}

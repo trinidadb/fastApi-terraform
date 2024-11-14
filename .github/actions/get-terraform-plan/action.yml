@@ -1,0 +1,41 @@
+name: "Get Terraform Plan"
+description: "A composite action to retrieve the terraform plan"
+
+inputs:
+  tf_working_dir:
+    description: "Directory containing the terraform.tfstate file."
+    required: true
+
+outputs:
+  tfplan_path:
+    description: "Path to the generated tfplan.json file."
+    value: ${{ steps.get-tfplan-json.outputs.tfplan_path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Terraform init
+      run: terraform init
+      working-directory: ${{ inputs.tf_working_dir }}
+      shell: bash
+
+    - name: Terraform plan
+      run: terraform plan -out tfplan.binary
+      working-directory: ${{ inputs.tf_working_dir }}
+      shell: bash
+
+    - name: Terraform show
+      run: terraform show -json tfplan.binary > tfplan.json
+      working-directory: ${{ inputs.tf_working_dir }}
+      shell: bash
+
+    - name: Set output for tfplan.json path
+      id: get-tfplan-json
+      run: echo "tfplan_path=${{ inputs.tf_working_dir }}/tfplan.json" >> $GITHUB_OUTPUT
+      working-directory: ${{ inputs.tf_working_dir }}
+      shell: bash

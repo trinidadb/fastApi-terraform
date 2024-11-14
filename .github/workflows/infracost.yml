@@ -1,4 +1,4 @@
-name: Infracost Analysis
+name: Infracost analysis
 
 on:
   pull_request:
