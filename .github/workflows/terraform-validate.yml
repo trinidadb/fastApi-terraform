@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   tf-lint:
-    name: tflint
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -49,7 +49,7 @@ jobs:
 
   tf-security-scan:
     # Tfsec is included in trivy
-    name: trivy
+    name: security-scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -85,9 +85,8 @@ jobs:
           directory: ${{ env.TF_WORKING_DIR }}
           download_external_modules: true
           framework: terraform
-          # This will add both a CLI output to the console and create a results.sarif file
-          output_format: cli,sarif
-          output_file_path: console,checkov-results.sarif
+          output_format: sarif
+          output_file_path: checkov-results.sarif
         
       - name: Upload Checkov scan results to GitHub Security tab
         if: failure() || success()
