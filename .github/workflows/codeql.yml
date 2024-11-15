@@ -3,8 +3,18 @@ name: CodeQL
 on:
   push:
     branches: [ "master" ]
+    # paths:
+    #   - "**.py"
+    #   - "pyproject.toml"
+    #   - "poetry.lock"
+    #   - ".github/**"
   pull_request:
     branches: [ "master" ]
+    # paths:
+    #   - "**.py"
+    #   - "pyproject.toml"
+    #   - "poetry.lock"
+    #   - ".github/**"
   schedule:
     - cron: '59 23 * * 3'
 

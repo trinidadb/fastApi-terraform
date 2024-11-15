@@ -3,9 +3,22 @@ name: Infracost analysis (directory)
 on:
   push:
     branches: [ "master" ]
+    # paths:
+    #   - "**.tf"
+    #   - "**.hcl"
+    #   - "**.tfstate"
+    #   - "**.tfstate.backup"
+    #   - "**.tfvars"
+    #   - ".github/**"
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]
+    # paths:
+    #   - "**.tf"
+    #   - "**.hcl"
+    #   - "**.tfstate"
+    #   - "**.tfstate.backup"
+    #   - "**.tfvars"
+    #   - ".github/**"
   workflow_dispatch:      # Allows you to manually trigger the workflow
 
 env:

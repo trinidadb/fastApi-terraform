@@ -4,11 +4,11 @@
 name: Deploy to Amazon ECS
 
 on:
-  push:
+  pull_request:
     branches:
       - master
     paths:
-      - 'my_app/**'  # Only trigger when changes are made in the 'my_app' directory
+      - 'my_app/**'   # Only trigger when changes are made in the 'my_app' directory. Can't pass a .env variable here
   workflow_dispatch:  # Allows you to manually trigger the workflow
 
 env:
