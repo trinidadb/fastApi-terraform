@@ -19,8 +19,6 @@ on:
       - "poetry.lock"
       - ".github/**"
   merge_group:
-    types: [ checks_requested ]
-  check_run:
   schedule:
     - cron: '59 23 * * 3' # Every Wednesday at 23:59
   workflow_dispatch:      # Allows you to manually trigger the workflow
