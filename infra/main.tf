@@ -15,6 +15,7 @@ locals{
   region    = "eu-north-1"
   namespace = "my-fastapi-app"
   env       = "uat"
+  service   = "my-service"
 }
 
 
@@ -25,6 +26,7 @@ provider "aws" {
       Environment = local.env
       Project     = local.namespace
       Name        = local.namespace
+      Service     = local.service
     }
   }
   
