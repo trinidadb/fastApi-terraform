@@ -3,22 +3,22 @@ name: Infracost analysis (plan)
 on:
   push:
     branches: [ "master" ]
-    # paths:
-    #   - "**.tf"
-    #   - "**.hcl"
-    #   - "**.tfstate"
-    #   - "**.tfstate.backup"
-    #   - "**.tfvars"
-    #   - ".github/**"
+    paths:
+      - "**.tf"
+      - "**.hcl"
+      - "**.tfstate"
+      - "**.tfstate.backup"
+      - "**.tfvars"
+      - ".github/**"
   pull_request:
     branches: [ "master" ]
-    # paths:
-    #   - "**.tf"
-    #   - "**.hcl"
-    #   - "**.tfstate"
-    #   - "**.tfstate.backup"
-    #   - "**.tfvars"
-    #   - ".github/**"
+    paths:
+      - "**.tf"
+      - "**.hcl"
+      - "**.tfstate"
+      - "**.tfstate.backup"
+      - "**.tfvars"
+      - ".github/**"
   workflow_dispatch:    
 
 env:
