@@ -1,4 +1,4 @@
-name: Infracost analysis
+name: Infracost analysis (directory)
 
 on:
   push:
@@ -13,6 +13,7 @@ env:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   infracost:
