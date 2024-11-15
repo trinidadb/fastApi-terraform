@@ -34,10 +34,10 @@ runs:
       id: get-region
       run: |
         # Check if terraform is initialized
-        if ! terraform output -raw region &>/dev/null; then
-            value="eu-north-1"
+        if terraform output -raw region &>/dev/null; then
+            value=$(terraform output -raw region 2>/dev/null)
         else
-            value=$(terraform output -raw region)
+            value="eu-north-1"
         fi
         echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
