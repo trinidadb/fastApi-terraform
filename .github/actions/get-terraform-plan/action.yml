@@ -33,13 +33,12 @@ runs:
     - name: Extract region from terraform outputs
       id: get-region
       run: |
-        #value=$(terraform output -raw region 2>/dev/null)  # Try to extract region
-        # if [ $? -ne 0 ]; then  # Check if terraform output failed (exit code not zero)
-        #   echo "Warning: Terraform output 'region' not found. Using default value."
-        #   value="eu-north-1"  # Default region if not found
-        # fi
-        # echo "Warning: Terraform output 'region' not found. Using default value."
-        value="eu-north-1"
+        # Check if terraform is initialized
+        if ! terraform output -raw region &>/dev/null; then
+            value="eu-north-1"
+        else
+            value=$(terraform output -raw region)
+        fi
         echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
       shell: bash
@@ -49,7 +48,7 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.aws_access_key_id }}
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
-        # aws-region: ${{ steps.get-region.outputs.region }}
+        aws-region: ${{ steps.get-region.outputs.region }}
 
     - name: Terraform plan
       run: terraform plan -out tfplan.binary
