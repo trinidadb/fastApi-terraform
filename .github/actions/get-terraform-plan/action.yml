@@ -33,7 +33,7 @@ runs:
     - name: Extract region from terraform outputs
       id: get-region
       run: |
-        # Check if terraform is initialized
+        # This will probably fail if tfstate is empty. To run it initally you will probably have to hardcode teh region value
         value=$(terraform output -raw region || "eu-north-1" )
         echo "region=$value" >> $GITHUB_OUTPUT
       working-directory: ${{ inputs.tf_working_dir }}
