@@ -56,3 +56,17 @@ Github actions can't connect to services running locally on your machine. GitHub
 Alternatively, set up a self-hosted runner on your local machine where SonarQube is running. This way, the localhost connection should work since both the runner and SonarQube are on the same machine.
 
 runs-on: self-hosted
+
+
+https://circleci.com/blog/git-tags-vs-branches/
+
+
+ENVs
+
+https://medium.com/@sreekanth.thummala/choosing-the-right-git-branching-strategy-a-comparative-analysis-f5e635443423
+https://medium.com/novai-devops-101/github-flow-vs-trunk-based-development-a-comprehensive-comparison-48990f8785de
+https://www.reddit.com/r/devops/comments/1ebi0e2/how_are_you_guys_dealing_with_github_monorepo/
+https://nvie.com/posts/a-successful-git-branching-model/
+https://trunkbaseddevelopment.com/
+https://aulab.es/articulos-guias-avanzadas/92/el-comando-git-pull-en-git#:~:text=El%20pull%20con%20rebase%20es,el%20historial%20actualizado%20del%20repositorio.
+https://statusneo.com/trunk-based-development/
