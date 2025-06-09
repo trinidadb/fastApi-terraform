@@ -10,7 +10,7 @@ class TestGenericFunctionaliti(TestCase):
     @mock.patch("app.main.on_finish", new_callable=mock.AsyncMock)
     async def test_lifespan(self, mk_on_finish, mk_initialize):
         """ Test that `initialize` and `on_finish` are called correctly within the lifespan context manager. """
-        from app.main import app   # It's imported iniside so the original "initialize" and "on_finish" aren't called/imported
+        from server.main import app   # It's imported iniside so the original "initialize" and "on_finish" aren't called/imported
 
         with TestClient(app) as client:
             response = client.get("/")
